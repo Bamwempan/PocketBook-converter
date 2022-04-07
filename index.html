@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+    <script>
+    function ConvertToObsidian() {
+        var x = document.getElementById("myTextarea").value;
+
+        // Configure turndown
+        var options = {
+            headingStyle: 'atx'
+        };
+
+
+        // Create an instance of the turndown service
+        var turndownService = new TurndownService(options);
+
+        // Ajouter "Page" avant les nombres
+        turndownService.addRule('AddPage', {
+            filter: function (node) {
+                return (
+                //options.linkStyle === 'inlined' &&
+                node.nodeName === 'P' &&
+                node.getAttribute('class')
+                )
+            },
+            replacement: function (content) {
+                return 'Page ' + content + '<br>'
+            }
+        })
+
+        // Ajouter le titre du livre
+        turndownService.addRule('ScriptDelete', {
+            filter: 'title',
+            replacement: function (content) {return '# ' + content + '<br> ## Note <br>'}
+        })
+
+        // Enlever le script
+        turndownService.addRule('ScriptDelete', {
+            filter: 'script',
+            replacement: function () {return ''}
+        })
+
+        // Ajouter les couleurs différentes
+        turndownService.addRule('Color', {
+            filter: function (node) {
+                return (
+                node.nodeName === 'DIV' &&
+                node.getAttribute('class')
+                )
+            },
+            replacement: function (content,node) {
+                if (node.getAttribute('class') == 'bookmark bm-color-yellow') {
+                    return '> [!WARNING] ' + content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bookmark bm-color-blue') {
+                    return '> [!INFO] ' +content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bookmark bm-color-magenta') {
+                    return '> [!VIOLET] ' +content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bookmark bm-color-green') {
+                    return '> [!SUCESS] ' +content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bookmark bm-color-red') {
+                    return '> [!DANGER] ' +content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bm-note') {
+                    return '<br><br> > [!QUOTE] Note <br> >' + content
+                }
+                return content
+            }
+        })
+
+        // Use the turndown method from the created instance
+        // to convert the first argument (HTML string) to Markdown
+        var markdown = turndownService.turndown(x);
+
+        document.getElementById("demo").innerHTML = markdown;
+        document.getElementById("myTextarea").remove()
+        document.getElementById("button").remove()
+        document.getElementById("buttonZotero").remove()
+    }
+    function ConvertToZotero() {
+        var x = document.getElementById("myTextarea").value;
+
+        // Configure turndown
+        var options = {
+            headingStyle: 'atx'
+        };
+
+
+        // Create an instance of the turndown service
+        var turndownService = new TurndownService(options);
+
+        // Ajouter "Page" avant les nombres
+        turndownService.addRule('AddPage', {
+            filter: function (node) {
+                return (
+                //options.linkStyle === 'inlined' &&
+                node.nodeName === 'P' &&
+                node.getAttribute('class')
+                )
+            },
+            replacement: function (content) {
+                return 'Page ' + content + '<br>'
+            }
+        })
+
+        // Ajouter le titre du livre
+        turndownService.addRule('ScriptDelete', {
+            filter: 'title',
+            replacement: function (content) {return '# ' + content + '<br> ## Note <br>'}
+        })
+
+        // Enlever le script
+        turndownService.addRule('ScriptDelete', {
+            filter: 'script',
+            replacement: function () {return ''}
+        })
+
+        // Ajouter les couleurs différentes
+        turndownService.addRule('Color', {
+            filter: function (node) {
+                return (
+                node.nodeName === 'DIV' &&
+                node.getAttribute('class')
+                )
+            },
+            replacement: function (content,node) {
+                if (node.getAttribute('class') == 'bookmark bm-color-yellow') {
+                    return '> *En accord* ' + content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bookmark bm-color-blue') {
+                    return '> *Information* ' +content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bookmark bm-color-magenta') {
+                    return '> ' +content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bookmark bm-color-green') {
+                    return '> *A réfléchir* ' +content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bookmark bm-color-red') {
+                    return '> *Contradiction* ' +content + '<br><br>'
+                }
+                if (node.getAttribute('class') == 'bm-note') {
+                    return '<br><br> > *Note* <br> >' + content
+                }
+                return content
+            }
+        })
+
+        // Use the turndown method from the created instance
+        // to convert the first argument (HTML string) to Markdown
+        var markdown = turndownService.turndown(x);
+
+        document.getElementById("demo").innerHTML = markdown;
+        document.getElementById("myTextarea").remove()
+        document.getElementById("button").remove()
+        document.getElementById("buttonZotero").remove()
+    }
+    </script>
+</head>
+<body>
+    <textarea name="" id="myTextarea" cols="30" rows="10"></textarea>
+    <button type="button" id="button" onclick="ConvertToObsidian()">Convertir Pour Obsidian</button>
+    <button type="button" id="buttonZotero" onclick="ConvertToZotero()">Convertir Pour Zotero</button>
+    <p id="demo"></p>
+</body>
+</html>
