@@ -55,22 +55,22 @@
             },
             replacement: function (content,node) {
                 if (node.getAttribute('class') == 'bookmark bm-color-yellow') {
-                    return '> [!WARNING] ' + content + '<br><br>'
+                    return '> [!accord] ' + content + '<br><br>'
                 }
                 if (node.getAttribute('class') == 'bookmark bm-color-blue') {
-                    return '> [!INFO] ' +content + '<br><br>'
+                    return '> [!information] ' +content + '<br><br>'
                 }
                 if (node.getAttribute('class') == 'bookmark bm-color-magenta') {
                     return '> [!VIOLET] ' +content + '<br><br>'
                 }
                 if (node.getAttribute('class') == 'bookmark bm-color-green') {
-                    return '> [!SUCESS] ' +content + '<br><br>'
+                    return '> [!approfondir] ' +content + '<br><br>'
                 }
                 if (node.getAttribute('class') == 'bookmark bm-color-red') {
-                    return '> [!DANGER] ' +content + '<br><br>'
+                    return '> [!désacord] ' +content + '<br><br>'
                 }
                 if (node.getAttribute('class') == 'bm-note') {
-                    return '<br><br> > [!QUOTE] Note <br> >' + content
+                    return '<br><br> > [!cite] Note <br> >' + content
                 }
                 return content
             }
