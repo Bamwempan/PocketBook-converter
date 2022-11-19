@@ -36,7 +36,7 @@
         // Ajouter le titre du livre
         turndownService.addRule('ScriptDelete', {
             filter: 'title',
-            replacement: function (content) {return '# ' + content + '<br> ## Note <br>'}
+            replacement: function (content) {return '# Note <br>'}
         })
 
         // Enlever le script
